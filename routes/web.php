@@ -14,7 +14,7 @@ use App\Http\Controllers\{
 };
 
 
-Route::view('/', 'index');
+Route::view('/', 'index')->name('home');
 
 Route::controller(PostController::class)
     ->prefix("posts")->group(function () {
