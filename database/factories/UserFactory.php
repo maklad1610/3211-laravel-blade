@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'roles' => fake()->randomElement(['admin', 'editor', 'viewer', 'guest']),
+            'roles' => fake()->randomElements(['admin', 'editor', 'viewer', 'guest'], rand(1, 3)),
             'remember_token' => Str::random(10),
             "phone" => fake()->e164PhoneNumber(),
             "profile_photo" => "https://randomuser.me/api/portraits/$gender/$randid.jpg"

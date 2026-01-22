@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             "name" => "Maged Yaseen",
             "email" => "magedyaseengroups@gmail.com",
             "password" => "password",
-            "roles" => "admin",
+            "roles" => ["admin"],
             "phone" => "01024750245",
             "profile_photo" => "https://lh3.googleusercontent.com/ogw/AF2bZyjJlDe8S7dkN0oXZM1wrtyrmNpFhsNfNQPT9No7qWD0KQ=s32-c-mo",
         ]);

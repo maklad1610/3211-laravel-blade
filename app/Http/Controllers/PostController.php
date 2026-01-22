@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\PostStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -19,38 +20,9 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        // $posts = Cache::remember('all_posts', now()->addSeconds(20), function () {
-        //     $per_page = $request->per_page ?? 10;
+        $posts = Post::all();
 
-        //     return Post::with('user')->modified()->active()->paginate($per_page);
-        // });
-
-
-        if (Cache::has('all_posts')) {
-            $posts = Cache::get('all_posts');
-        } else {
-            $per_page = $request->per_page ?? 10;
-
-            // $posts = Post::with('user')->modified()->active()->paginate($per_page);
-            // get only last 10 posts
-            $posts = Post::with('user')->modified()->active()->latest()->paginate($per_page);
-
-            Cache::forever('all_posts', $posts);
-        }
-
-        // $posts = Post::with('user')->modified()->recent()->get();
-        // $posts = DB::table('posts')
-        //     ->join('post_statuses', 'posts.post_status_id', '=', 'post_statuses.id')
-        //     ->join('users', 'users.id', '=', 'posts.user_id')
-        //     ->select('posts.*', 'post_statuses.type as post_status', 'users.name as user_name')
-        //     ->whereIn('posts.post_status_id', [1, 2, 7])
-        //     ->paginate($per_page);
-
-        $posts = PostCollection::make($posts);
-
-        $postsData = 'successResponse';
-
-        return $postsData;
+        return $posts;
     }
 
     /**
@@ -58,7 +30,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $postStatuses = PostStatus::orderBy('type', 'asc')->get();
+
+        return view('posts.create', [
+            'postStatuses' => $postStatuses,
+        ]);
     }
 
     /**
@@ -66,19 +42,23 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $thumbnail = $request->file('thumbnail');
+
+        $thumbnail_path = $thumbnail->store('thumbnails');
+
         $postData = $request->all();
-        $postData['user_id'] = auth()->user()->id;
+        $postData['user_id'] = 1; // Temporary user_id
+        $postData['thumbnail'] = $thumbnail_path;
+        // return  $postData;
 
         $post = Post::create($postData);
 
         if ($post) {
-            // Clear cache
-            Cache::forget('all_posts');
 
-            return  'Post Created Successfully';
+            return redirect()->route('posts.show', $post->id)->with('success', 'Post Created Successfully');
         }
 
-        return  'Cannot create the post now, please try again later.';
+        return redirect()->back()->with('error', 'Cannot create the post now, please try again later.');
     }
 
     /**
@@ -86,14 +66,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        // $post =  $post->load(['user', 'postStatus', 'comments.user']);
-        $post = $post->load(['user']);
+        $post->load(['user', 'postStatus']);
 
-        $post = PostResource::make($post);
-
-        $postData = 'successResponse';
-
-        return $postData;
+        return view('posts.show', [
+            'post' => $post,
+        ]);
     }
 
     /**
