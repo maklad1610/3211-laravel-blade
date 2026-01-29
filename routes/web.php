@@ -17,6 +17,8 @@ use App\Http\Controllers\{
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
+    //Route::get('/posts', [PostController::class, 'index'])->name('posts');
+
     Route::view('/', 'index')->name('home');
     Route::view('/settings', 'settings')->name('settings');
     Route::put('/settings/profile/update', [SettingController::class, 'update_profile'])->name('settings.profile.update');
@@ -39,6 +41,7 @@ Route::middleware('auth')->group(function () {
         'post-statuses' => PostStatusController::class,
         'reaction-types' => ReactionTypeController::class,
         'posts' => PostController::class,
+        //'/' => PostController::class,
         'comments' => CommentController::class,
         'replies' => ReplyController::class,
     ]);
@@ -56,6 +59,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::get('login', 'login_form')->name('login');
     Route::post('login', 'login');
+    Route::get('register', 'register_form')->name('register');
     Route::post('register', 'register');
     Route::post('forget-password', 'forget_password');
     Route::post('reset-password', 'reset_password');

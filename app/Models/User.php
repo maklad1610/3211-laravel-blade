@@ -65,7 +65,8 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn($str) => explode(',', $str),
-            set: fn($arr) => implode(',', $arr),
+           set: fn($str) => is_array($str) ? implode(',', $str) : $str,
+
         );
     }
 

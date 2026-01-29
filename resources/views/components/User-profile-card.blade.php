@@ -3,8 +3,8 @@
     <div class="px-6 pb-6 relative">
         <div class="flex justify-center">
             <div
-                class="rounded-full border-4 border-white -mt-12 w-24 h-24 bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold">
-                M
+                class="square-full border-4 border-white -mt-12 w-24 h-24 bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl font-bold">
+                <img src="{{ auth()->user()->profile_photo }}" class="w-full h-full object-cover" alt="profile_photo">
             </div>
         </div>
         <div class="text-center mt-4">

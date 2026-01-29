@@ -13,6 +13,6 @@ class ReactionSeeder extends Seeder
      */
     public function run(): void
     {
-        Reaction::factory(54320)->create();
+        Reaction::factory(100)->create();
     }
 }

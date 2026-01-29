@@ -35,8 +35,8 @@
                         MY
                     </div>
                     <div>
-                        <p class="font-medium text-gray-800">Maged Yaseen</p>
-                        <p class="text-sm text-gray-500">@magedyaseengroups</p>
+                        <p class="font-medium text-gray-800">{{ auth()->user()->name }}</p>
+                        <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
                     </div>
                 </div>
             </div>

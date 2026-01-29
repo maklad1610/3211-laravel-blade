@@ -8,6 +8,7 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostStatus;
+use App\Models\Reaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +21,15 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::all();
+        $posts_ = Post::all();
+        $posts = Post::orderBy('updated_at', 'desc')->get();
 
-        return $posts;
+        //$post_likes = Reaction::where('reaction_type', 'like')->get();
+
+        return view('index', [
+            'posts' => $posts,
+            //'post_likes' => $post_likes,
+        ]);
     }
 
     /**
@@ -74,6 +81,7 @@ class PostController extends Controller
 
         return view('posts.show', [
             'post' => $post,
+
         ]);
     }
 

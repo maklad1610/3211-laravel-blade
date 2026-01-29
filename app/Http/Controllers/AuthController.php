@@ -32,7 +32,8 @@ class AuthController extends Controller
 
             session(['user_posts_count' => $posts_count]);
 
-        return redirect()->route('home');
+        //return redirect()->route('posts');
+        return redirect()->to('/posts');
 
 
         return back()->withErrors([
@@ -49,11 +50,13 @@ class AuthController extends Controller
 
         $user = User::create($data);
 
-        $token = $user->createToken('register', $user->roles, now()->addMinutes(20))->plainTextToken;
+        return redirect()->to('/posts');
 
-        $user->token = $token;
+        // $token = $user->createToken('register', $user->roles, now()->addMinutes(20))->plainTextToken;
 
-        return $user;
+        // $user->token = $token;
+
+        //return $user;
     }
 
     public function change_password(ChangePasswordRequest $request)

@@ -50,7 +50,7 @@ class ReactionFactory extends Factory
                 'reactable_id' => $reactable_id,  
                 'reactable_type' => $reactable_type,  
                 'user_id' => $user_id,  
-                'reaction_type' => ReactionType::inRandomOrder()->first()->id,
+                'reaction_type_id' => ReactionType::inRandomOrder()->first()->id,
             ];
         }
         return [];

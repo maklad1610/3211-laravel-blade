@@ -2,7 +2,7 @@
     <nav class="border-gray-200 px-4 lg:px-6 py-3">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <!-- Logo -->
-            <a href="{{ url('/') }}" class="flex items-center">
+            <a href="{{ url('/posts') }}" class="flex items-center">
                 <div class="bg-white p-2 rounded-lg mr-3">
                     <i data-lucide="pen-square" class="w-8 h-8 text-indigo-600"></i>
                 </div>
@@ -53,15 +53,15 @@
                     class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover-lift"
                     id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                     data-dropdown-placement="bottom">
-                    <span class="font-medium text-white">M</span>
+                    <span class="font-medium text-white">{{substr(auth()->user()->name, 0, 1) }}</span> 
                 </button>
 
                 <!-- Dropdown menu -->
                 <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
                     id="user-dropdown">
                     <div class="py-3 px-4">
-                        <span class="block text-sm text-gray-900">Michael Chen</span>
-                        <span class="block text-sm font-medium text-gray-500 truncate">michael@example.com</span>
+                        <span class="block text-sm text-gray-900">{{ auth()->user()->name }}</span>
+                        <span class="block text-sm font-medium text-gray-500 truncate">{{ auth()->user()->email }}</span>
                     </div>
                     <ul class="py-1" aria-labelledby="user-menu-button">
                         <li>
