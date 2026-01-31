@@ -19,16 +19,33 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $posts)
     {
-        $posts_ = Post::all();
+        //$posts = Post::all();
+        
         $posts = Post::orderBy('updated_at', 'desc')->get();
+        $posts->load(['user', 'postStatus','reactions','comments']);
 
-        //$post_likes = Reaction::where('reaction_type', 'like')->get();
+        foreach ($posts as $post) {
+            foreach ($post->reactions as $react) {
+                if ($react->reactable_id == $post->id) {
+                    $post->reaction_type_id = $react->reaction_type_id;
+                    break;  
+                }
+            }
+        }
+        
+        foreach ($posts as $post) {
+            foreach ($post->comments as $comment) {
+                if ($comment->reactable_id == $post->id) {
+                    $post->comment_type_id = $comment->comment_type_id;
+                    break;  
+                }
+            }
+        }
 
         return view('index', [
             'posts' => $posts,
-            //'post_likes' => $post_likes,
         ]);
     }
 
@@ -77,7 +94,21 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->load(['user', 'postStatus']);
+        $post->load(['user', 'postStatus','reactions','comments']);
+        
+        foreach ($post->reactions as $react) {
+            if ($react->reactable_id == $post->id) {
+                $post->reaction_type_id = $react->reaction_type_id;
+                break;  
+            }
+        }
+        foreach ($post->comments as $comment) {
+            if ($comment->reactable_id == $post->id) {
+                $post->comment_type_id = $comment->comment_type_id;
+                break;  
+            }
+        }
+        
 
         return view('posts.show', [
             'post' => $post,

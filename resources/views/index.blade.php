@@ -317,11 +317,11 @@
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center">
                             <i data-lucide="heart" class="w-5 h-5 mr-1"></i>
-                            <span>89</span>
+                            <span>{{ $post->reactions->where('reaction_type_id', 1 && 2 && 3 && 4 && 5 && 6 && 7 && 8 && 9 && 10)->count() ?? 0 }}</span>
                         </div>
                         <div class="flex items-center">
                             <i data-lucide="message-circle" class="w-5 h-5 mr-1"></i>
-                            <span>32</span>
+                            <span>{{ $post->comments->count() ?? 0 }}</span>
                         </div>
                         <div class="flex items-center">
                             <i data-lucide="share-2" class="w-5 h-5 mr-1"></i>
@@ -358,6 +358,8 @@
                     </button>
                 </div>
             </div>
+                                      
+
         </div>
         @endforeach
 
